@@ -1,5 +1,6 @@
 <!-- Welcome Screen provided by Dr Krish Narayanan via canvas -->
 <!-- Figure 1: Welcome Screen by Alexander -->
+<html>
 <title>Welcome to Best Book Buy Online Bookstore!</title>
 <body>
 	<table align="center" style="border:1px solid blue;">
