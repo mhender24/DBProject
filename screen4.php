@@ -13,13 +13,15 @@
 </style>
 </head>
 <body>
+
 	<table align="center" style="border:1px solid blue;">
 		<tr>
 			<td align="center">
 				<h5> Reviews For:</h5>
 			</td>
 			<td align="left">
-				<h5> Harry Potter and the Sorcerer Stone</h5>
+				<!-- php here for getting book title -->
+				<h5> <?php echo $_GET["title"]; ?> </h5>
 			</td>
 		</tr>
 
@@ -27,7 +29,19 @@
 			<td colspan="2">
 			<div id="bookdetails" style="overflow:scroll;height:200px;width:300px;border:1px solid black;">
 			<table>
-			<tr><p>"A great book series, not just for children! Great read for anyone." -Alica Denten, BookReviews.com</p></tr>			</table>
+
+				<?php
+				$isbn = $_GET["isbn"];
+				$sql = "SELECT review_txt FROM reviews":
+				$result = $conn->query($sql);
+				while($row = $result->fetch_accoc()){
+					echo <tr><p> $row["review_txt"] </p></tr>;
+				}
+
+
+			 ?>
+
+			</table>
 			</div>
 			</td>
 		</tr>
