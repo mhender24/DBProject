@@ -1,5 +1,50 @@
 <!-- Customer registration Screen provided by Dr Krish Narayanan via canvas -->
 <!-- UI: Prithviraj Narahari, php code: Alexander Martens -->
+<?php
+	require_once("common.php");
+	$error = "";
+	// include common variables and functions
+	if(isset($_POST['register_submit'])){
+
+		// open the database
+		db_open();
+
+		// if we have a $link, we are connected
+		//if ($link)
+		//	echo "Works!";
+		foreach($_POST as $key => $value){
+			if(empty($value)){
+				$error = $key . " not entered.  Please make sure all fields are filled";
+				break;
+			}
+		}
+
+		if($_POST['pin'] != $_POST['retype_pin'])
+			$error = "pins do not match.  Please try again";
+		
+		if(empty($error)){
+			$sql ="SELECT * 
+				   FROM users 
+				   WHERE user_name = '$_POST[username]'";
+			$result = mysqli_query($link,$sql);
+			if($result->num_rows > 0)
+    			$error = "Username already exists.  Please choose a different user name";
+			else{
+    			$sql="INSERT INTO users values('$_POST[username]','$_POST[pin]','$_POST[firstname]',
+    					'$_POST[lastname]','$_POST[address]','$_POST[city]','$_POST[state]',
+    					'$_POST[zip]', '$_POST[credit_card]', '$_POST[card_number]',$_POST[expiration])";
+				echo $sql;
+    			if (!mysqli_query($link,$sql))
+        			$error = "User could not be added";
+			}
+		}
+	}
+	echo $error;
+	db_close();
+
+?>
+
+<HTML>
 <head>
 <title> CUSTOMER REGISTRATION </title>
 </head>
@@ -11,7 +56,7 @@
 				Username<span style="color:red">*</span>:
 			</td>
 			<td align="left" colspan="3">
-				<input type="text" id="username" name="username" placeholder="Enter your username">
+				<input type="text" id="username" name="username" value="<?php echo isset($_POST['username']) ? $_POST['username'] : '' ?>" placeholder="Enter your username">
 			</td>
 		</tr>
 		<tr>
@@ -19,7 +64,7 @@
 				PIN<span style="color:red">*</span>:
 			</td>
 			<td align="left">
-				<input type="password" id="pin" name="pin">
+				<input type="password" id="pin" name="pin" >
 			</td>
 			<td align="right">
 				Re-type PIN<span style="color:red">*</span>:
@@ -33,7 +78,7 @@
 				Firstname<span style="color:red">*</span>:
 			</td>
 			<td colspan="3" align="left">
-				<input type="text" id="firstname" name="firstname" placeholder="Enter your firstname">
+				<input type="text" id="firstname" name="firstname" value="<?php echo isset($_POST['firstname']) ? $_POST['firstname'] : '' ?>" placeholder="Enter your firstname">
 			</td>
 		</tr>
 		<tr>
@@ -41,7 +86,7 @@
 				Lastname<span style="color:red">*</span>:
 			</td>
 			<td colspan="3" align="left">
-				<input type="text" id="lastname" name="lastname" placeholder="Enter your lastname">
+				<input type="text" id="lastname" name="lastname" value="<?php echo isset($_POST['lastname']) ? $_POST['lastname'] : '' ?>" placeholder="Enter your lastname">
 			</td>
 		</tr>
 		<tr>
@@ -49,7 +94,7 @@
 				Address<span style="color:red">*</span>:
 			</td>
 			<td colspan="3" align="left">
-				<input type="text" id="address" name="address">
+				<input type="text" id="address" name="address" value="<?php echo isset($_POST['address']) ? $_POST['address'] : '' ?>">
 			</td>
 		</tr>
 		<tr>
@@ -57,7 +102,7 @@
 				City<span style="color:red">*</span>:
 			</td>
 			<td colspan="3" align="left">
-				<input type="text" id="city" name="city">
+				<input type="text" id="city" name="city" value="<?php echo isset($_POST['city']) ? $_POST['city'] : '' ?>">
 			</td>
 		</tr>
 		<tr>
@@ -67,16 +112,19 @@
 			<td align="left">
 				<select id="state" name="state">
 				<option selected disabled>select a state</option>
-				<option>Michigan</option>
-				<option>California</option>
-				<option>Tennessee</option>
+				<option value="Michigan"
+ 					<? if($varGender=="Michigan") echo(" selected=\"selected\"");?> Michigan</option>
+				<option value="California"
+ 					<? if($varGender=="California") echo(" selected=\"selected\"");?> California</option>
+				<option value="Tennessee"
+ 					<? if($varGender=="Tennessee") echo(" selected=\"selected\"");?> Tennessee</option>
 				</select>
 			</td>
 			<td align="right">
 				Zip<span style="color:red">*</span>:
 			</td>
 			<td align="left">
-				<input type="text" id="zip" name="zip">
+				<input type="text" id="zip" name="zip" value="<?php echo isset($_POST['zip']) ? $_POST['zip'] : '' ?>">
 			</td>
 		</tr>
 		<tr>
@@ -86,13 +134,16 @@
 			<td align="left">
 				<select id="credit_card" name="credit_card">
 				<option selected disabled>select a card type</option>
-				<option>VISA</option>
-				<option>MASTER</option>
-				<option>DISCOVER</option>
+				<option value="VISA"
+ 					<? if($varGender=="VISA") echo(" selected=\"selected\"");?> VISA</option>
+				<option value="MASTER"
+ 					<? if($varGender=="MASTER") echo(" selected=\"selected\"");?> MASTER</option>
+				<option value="DISCOVER"
+ 					<? if($varGender=="DISCOVER") echo(" selected=\"selected\"");?> DISCOVER</option>
 				</select>
 			</td>
 			<td colspan="2" align="left">
-				<input type="text" id="card_number" name="card_number" placeholder="Credit card number">
+				<input type="text" id="card_number" name="card_number" value="<?php echo isset($_POST['card_number']) ? $_POST['card_number'] : '' ?>" placeholder="Credit card number">
 			</td>
 		</tr>
 		<tr>
@@ -100,7 +151,7 @@
 				Expiration Date<span style="color:red">*</span>:
 			</td>
 			<td colspan="2" align="left">
-				<input type="text" id="expiration" name="expiration" placeholder="MM/YY">
+				<input type="text" id="expiration" name="expiration" value="<?php echo isset($_POST['expiration']) ? $_POST['expiration'] : '' ?>" placeholder="MM/YY">
 			</td>
 		</tr>
 		<tr>
