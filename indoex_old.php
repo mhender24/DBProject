@@ -18,7 +18,7 @@
   <li><a href="proof_purchase.php">Proof purchase page</a></li>
   <li><a href="user_login.php">User Login page</a></li>
   <li><a href="admin_login.php">Admin Login page</a></li>
-  <li><a href="">Admin actions page (under construction)</a></li>
+  <li><a href="admin_view.php">Admin actions page</a></li>
 <ul>
 
 </body>
