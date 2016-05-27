@@ -9,9 +9,6 @@
 		// open the database
 		db_open();
 
-		// if we have a $link, we are connected
-		//if ($link)
-		//	echo "Works!";
 		foreach($_POST as $key => $value){
 			if(empty($value)){
 				$error = $key . " not entered.  Please make sure all fields are filled";
@@ -33,11 +30,13 @@
     			$sql="INSERT INTO users values('$_POST[username]','$_POST[pin]','$_POST[firstname]',
     					'$_POST[lastname]','$_POST[address]','$_POST[city]','$_POST[state]',
     					'$_POST[zip]', '$_POST[credit_card]', '$_POST[card_number]',$_POST[expiration])";
-				echo $sql;
     			if (!mysqli_query($link,$sql))
         			$error = "User could not be added";
 			}
 		}
+	}
+	else if(isset($_POST['donotregister'])){
+		header("Location: screen1.php");
 	}
 	echo $error;
 	db_close();
