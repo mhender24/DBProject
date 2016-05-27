@@ -31,13 +31,25 @@
 			<table>
 
 				<?php
+				include 'common.php';
+				db_open();
+
 				$isbn = $_GET["isbn"];
-				$sql = "SELECT review_txt FROM reviews":
-				$result = $conn->query($sql);
-				while($row = $result->fetch_accoc()){
-					echo <tr><p> $row["review_txt"] </p></tr>;
+
+				$sql = "SELECT review_txt FROM reviews WHERE ISBN =".$isbn;
+
+				if ($result = mysqli_query($link, $sql)) {
+
+					while($row = mysqli_fetch_assoc($result) ){
+						echo "<tr><p>";
+						echo $row["review_txt"];
+						echo "</p></tr> <hr>";
+					}
+				}else {
+				echo "<tr><p> No Reviews Yet </p></tr>";
 				}
 
+			db_close();
 
 			 ?>
 
