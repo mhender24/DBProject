@@ -7,6 +7,7 @@
 	//redirect to reviews page
 	function review(isbn, title){
 		window.location.href="screen4.php?isbn="+ isbn + "&title=" + title;
+		return false;
 	}
 	//add to cart
 	function cart(isbn, searchfor, searchon, category){
@@ -48,9 +49,13 @@
 						// book info
 						echo " <td rowspan='2' align='left'>" .$row["title"]. "</br>By " .$row["author"]. "</br><b>Publisher:</b> " .$row["publisher"]. ",</br><b>ISBN:</b> " .$row["ISBN"]. "</t> <b>Price:</b> $" .$row["price"]. "</td></tr>";
 						// reviews button
-						echo "<tr><td align='left'><button name='review' id='review' onClick='review(". $row["ISBN"] .", \'". $row["title"] ."\')'>Reviews</button>";
+				
+				
+						//echo "<tr><td align='left'><button name='review' id='review' onClick=\" return review('". $row['ISBN'] . ", '" . $row['title'] . "'\");" . ">Reviews</button>";
+				?>
+						<tr><td align='left'><button name='review' id='review' onClick="return review( <?=$row['ISBN']?>, '<?=$row['title']?>');">Reviews</button>
+				<?php			
 						echo "</td></tr><tr><td colspan='2'><p><hr></p></td></tr>";
-
 					}
 			}else {
 				echo "<tr><p> No Results </p></tr>";
