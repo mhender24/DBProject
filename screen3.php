@@ -48,7 +48,7 @@
 						// book info
 						echo " <td rowspan='2' align='left'>" .$row["title"]. "</br>By " .$row["author"]. "</br><b>Publisher:</b> " .$row["publisher"]. ",</br><b>ISBN:</b> " .$row["ISBN"]. "</t> <b>Price:</b> $" .$row["price"]. "</td></tr>";
 						// reviews button
-						echo "<tr><td align='left'><button name='review' id='review' onClick='review(". $row["ISBN"] .", '". $row["title"] ."')'>Reviews</button>";
+						echo "<tr><td align='left'><button name='review' id='review' onClick='review(". $row["ISBN"] .", \'". $row["title"] ."\')'>Reviews</button>";
 						echo "</td></tr><tr><td colspan='2'><p><hr></p></td></tr>";
 
 					}
