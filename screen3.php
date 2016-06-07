@@ -1,5 +1,26 @@
 <!-- Screen3 provided by Dr Krish Narayanan via canvas -->
 <!-- Figure 3: Search Result Screen by Prithviraj Narahari, php coding: Alexander Martens -->
+<?php
+	$sql = "SELECT ISBN, title, author, publisher, price 
+			FROM book 
+			WHERE ";
+	if($_GET['searchon'] == 'anywhere'){
+		$sql .= "title LIKE '%" . $_GET['searchfor'] . "%' OR author LIKE '%" . $_GET['searchfor'] . "%' 
+		OR publisher LIKE '%" . $_GET['searchfor'] . "%' OR ISBN LIKE '%" . $_GET['searchfor'] . "%";
+	}
+	else{
+		foreach($_GET['searchon'] as $selected){
+			$sql .= $selected . " LIKE '%" . $_GET['searchfor'] . "%' OR ";
+		}
+		$sql = substr($sql, 0, strlen($sql)-3);
+	}
+	if($_GET['category'] != "all"){
+		$sql .= " AND category = " . $_GET['category'];
+	}
+	echo $sql;
+
+?>
+
 <html>
 <head>
 	<title> Search Result - 3-B.com </title>
@@ -40,7 +61,7 @@
 				<?php
 				include 'common.php';
 				db_open();
-				$sql = "SELECT ISBN, title, author, publisher, price FROM book";
+				//$sql = "SELECT ISBN, title, author, publisher, price FROM book";
 
 				if ($result = mysqli_query($link, $sql)) {
 					while($row = mysqli_fetch_assoc($result) ){

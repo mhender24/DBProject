@@ -3,19 +3,27 @@
 <html>
 <head>
 	<title>SEARCH - 3-B.com</title>
+	<script>
+	function enableSearch(){
+		var text = document.getElementById("searchfor").value;
+		if(text.length > 0)
+			document.getElementById("search").disabled = false;
+		return false;
+	}
+	</script>
 </head>
 <body>
 	<table align="center" style="border:1px solid blue;">
 		<tr>
 			<td>Search for: </td>
 			<form action="screen3.php" method="get">
-				<td><input name="searchfor" /></td>
-				<td><input type="submit" name="search" value="Search" /></td>
+				<td><input type = "text" id="searchfor" name = "searchfor" onblur="enableSearch()"/></td>
+				<td><input type="submit" id="search" value="Search" disabled/></td>
 		</tr>
 		<tr>
 			<td>Search In: </td>
 				<td>
-					<select name="searchon[]" multiple>
+					<select name="searchon[]" multiple="multiple">
 						<option value="anywhere" selected='selected'>Keyword anywhere</option>
 						<option value="title">Title</option>
 						<option value="author">Author</option>
