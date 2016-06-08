@@ -3,22 +3,25 @@
 <?php
 	$sql = "SELECT ISBN, title, author, publisher, price 
 			FROM book 
-			WHERE ";
-	if($_GET['searchon'] == 'anywhere'){
-		$sql .= "title LIKE '%" . $_GET['searchfor'] . "%' OR author LIKE '%" . $_GET['searchfor'] . "%' 
-		OR publisher LIKE '%" . $_GET['searchfor'] . "%' OR ISBN LIKE '%" . $_GET['searchfor'] . "%";
-	}
-	else{
-		foreach($_GET['searchon'] as $selected){
-			$sql .= $selected . " LIKE '%" . $_GET['searchfor'] . "%' OR ";
+			WHERE (";
+	$keywords_arr = explode(',', $_GET['searchfor']);
+	foreach($keywords_arr as $keyword){
+		if($_GET['searchon'][0] == 'anywhere'){
+			$sql .= "title LIKE '%" . trim($keyword) . "%' OR author LIKE '%" . trim($keyword) . "%' 
+			OR publisher LIKE '%" . trim($keyword) . "%' OR ISBN LIKE '%" . trim($keyword) . "%' OR ";
 		}
-		$sql = substr($sql, 0, strlen($sql)-3);
+		else{
+			foreach($_GET['searchon'] as $selected){
+				$sql .= $selected . " LIKE '%" . trim($keyword) . "%' OR ";
+			}
+		}
 	}
+	$sql = substr($sql, 0, strlen($sql)-3);
+	$sql .= ")";
 	if($_GET['category'] != "all"){
-		$sql .= " AND category = " . $_GET['category'];
+		$sql .= " AND category = '" . $_GET['category'] . "'";
 	}
-	echo $sql;
-
+	//echo $sql;
 ?>
 
 <html>
@@ -32,7 +35,7 @@
 	}
 	//add to cart
 	function cart(isbn, searchfor, searchon, category){
-		window.location.href="screen3.php?cartisbn="+ isbn + "&searchfor=" + searchfor + "&searchon=" + searchon + "&category=" + category;
+		window.location.href="screen3.php?cartisbn="+ isbn + "&searchfor=" + $_GET['searchfor'] + "&searchon=" + $_GET['searchon'] + "&category=" + $_GET['category'];
 	}
 	</script>
 </head>
