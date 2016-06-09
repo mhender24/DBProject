@@ -10,6 +10,46 @@
 	</script>
 </head>
 <body>
+	<?php
+	session_start();
+	//Checks to see if there is a cart session variable
+	if(isset($_SESSION["cart"]))	{
+		$cart = $_SESSION["cart"];
+		$cartlength = count($cart);
+		$html = "";
+		$subtotal = 0;
+		
+		//Loops through the cart array
+		for($i = 0; $i < $cartlength; $i++)	{
+			//sql that is disgustingly run to find data based on cart ISBNs
+			$sql = "SELECT title, author, ISBN, price
+					FROM book
+					WHERE ISBN='" . $cart[$i] . "';";
+			
+			//Puts information into html that populates table
+			if ($result = mysqli_query($link, $sql))	{
+				$row = mysqli_fetch_assoc($result);
+				$desc = "" . $row['title'] . "<br>"
+						. $row['author'] . "<br>"
+						. $row['ISBN'];
+						
+				$price = $row["price"];
+				$subtotal += $price;
+				
+				$html .= "<tr>
+							<td width='10%'><input type='checkbox' name='remove' value='" . $i . "'></td>
+							<td width='60%'>" . $desc . "</td>
+							<td width='10%'><input size='2' type='number' name='quantity' min='1' value='1'></td>
+							<td width='10%'>$" . $price . "</td>
+						</tr>";
+			}	
+			
+		}
+	}
+	
+	?>
+	
+
 	<table align="center" style="border:2px solid blue;">
 		<tr>
 			<td align="center">
@@ -34,7 +74,8 @@
 				<div id="bookdetails" style="overflow:scroll;height:180px;width:400px;border:1px solid black;">
 					<table align="center" BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="100%">
 						<th width='10%'>Remove</th><th width='60%'>Book Description</th><th width='10%'>Qty</th><th width='10%'>Price</th>
-											</table>
+						<?= $html ?>
+					</table>
 				</div>
 			</td>
 		</tr>
@@ -47,7 +88,8 @@
 				&nbsp;
 			</td>
 			<td align="center">
-				Subtotal:  $0			</td>
+				Subtotal:  <?= $subtotal; ?>	
+			</td>
 		</tr>
 	</table>
 </body>

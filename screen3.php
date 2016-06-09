@@ -22,6 +22,17 @@
 		$sql .= " AND category = '" . $_GET['category'] . "'";
 	}
 	//echo $sql;
+	
+	//Session work for cart
+	session_start();
+	if (!isset($_SESSION["cart"]))	{
+		$_SESSION["cart"] = array();
+	}
+	array_push($_SESSION["cart"], $_GET["cartisbn"]);
+	
+	$incart = count($_SESSION["cart"]);
+	
+	
 ?>
 
 <html>
@@ -44,7 +55,7 @@
 		<tr>
 			<td align="left">
 
-					<h6> <fieldset>Your Shopping Cart has 0 items</fieldset> </h6>
+					<h6> <fieldset>Your Shopping Cart has <?= $incart; ?> items</fieldset> </h6>
 
 			</td>
 			<td>
