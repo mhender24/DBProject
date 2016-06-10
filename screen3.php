@@ -1,13 +1,13 @@
 <!-- Screen3 provided by Dr Krish Narayanan via canvas -->
 <!-- Figure 3: Search Result Screen by Prithviraj Narahari, php coding: Alexander Martens -->
 <?php
-	$sql = "SELECT ISBN, title, author, publisher, price 
-			FROM book 
+	$sql = "SELECT ISBN, title, author, publisher, price
+			FROM book
 			WHERE (";
 	$keywords_arr = explode(',', $_GET['searchfor']);
 	foreach($keywords_arr as $keyword){
 		if($_GET['searchon'][0] == 'anywhere'){
-			$sql .= "title LIKE '%" . trim($keyword) . "%' OR author LIKE '%" . trim($keyword) . "%' 
+			$sql .= "title LIKE '%" . trim($keyword) . "%' OR author LIKE '%" . trim($keyword) . "%'
 			OR publisher LIKE '%" . trim($keyword) . "%' OR ISBN LIKE '%" . trim($keyword) . "%' OR ";
 		}
 		else{
@@ -22,17 +22,17 @@
 		$sql .= " AND category = '" . $_GET['category'] . "'";
 	}
 	//echo $sql;
-	
+
 	//Session work for cart
 	session_start();
 	if (!isset($_SESSION["cart"]))	{
 		$_SESSION["cart"] = array();
 	}
 	array_push($_SESSION["cart"], $_GET["cartisbn"]);
-	
+
 	$incart = count($_SESSION["cart"]);
-	
-	
+
+
 ?>
 
 <html>
@@ -41,7 +41,7 @@
 	<script>
 	//redirect to reviews page
 	function review(isbn, title){
-		window.location.href="screen4.php?isbn="+ isbn + "&title=" + title;
+		window.location.href="screen4.php?isbn="+ isbn;
 		return false;
 	}
 	//add to cart
@@ -84,12 +84,12 @@
 						// book info
 						echo " <td rowspan='2' align='left'>" .$row["title"]. "</br>By " .$row["author"]. "</br><b>Publisher:</b> " .$row["publisher"]. ",</br><b>ISBN:</b> " .$row["ISBN"]. "</t> <b>Price:</b> $" .$row["price"]. "</td></tr>";
 						// reviews button
-				
-				
+
+
 						//echo "<tr><td align='left'><button name='review' id='review' onClick=\" return review('". $row['ISBN'] . ", '" . $row['title'] . "'\");" . ">Reviews</button>";
 				?>
-						<tr><td align='left'><button name='review' id='review' onClick="return review( '<?=$row['ISBN']?>', '<?=$row['title']?>');">Reviews</button>
-				<?php			
+						<tr><td align='left'><button name='review' id='review' onClick="return review( '<?=$row['ISBN']?>');">Reviews</button>
+				<?php
 						echo "</td></tr><tr><td colspan='2'><p><hr></p></td></tr>";
 					}
 			}else {

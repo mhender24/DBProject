@@ -20,8 +20,25 @@
 				<h5> Reviews For:</h5>
 			</td>
 			<td align="left">
-				<!-- php here for getting book title -->
-				<h5> <?php echo $_GET["title"]; ?> </h5>
+					<!-- php here for getting book title -->
+				<?php
+				include 'common.php';
+				db_open();
+				$isbn = $_GET["isbn"];
+				$sql = "SELECT title FROM book WHERE ISBN LIKE '%".$isbn . "%'";
+
+				if ($result = mysqli_query($link, $sql)) {
+
+					while($row = mysqli_fetch_assoc($result) ){
+						echo "<h5>";
+						echo $row["title"];
+						echo "</h5>";
+					}
+				}
+
+				db_close();
+
+				 ?>
 			</td>
 		</tr>
 
@@ -31,7 +48,7 @@
 			<table>
 
 				<?php
-				include 'common.php';
+				//include 'common.php';
 				db_open();
 
 				$isbn = $_GET["isbn"];
