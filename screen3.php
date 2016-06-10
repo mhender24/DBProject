@@ -3,21 +3,18 @@
 <?php
 	$sql = "SELECT ISBN, title, author, publisher, price 
 			FROM book 
-			WHERE (";
-	$keywords_arr = explode(',', $_GET['searchfor']);
-	foreach($keywords_arr as $keyword){
-		if($_GET['searchon'][0] == 'anywhere'){
-			$sql .= "title LIKE '%" . trim($keyword) . "%' OR author LIKE '%" . trim($keyword) . "%' 
-			OR publisher LIKE '%" . trim($keyword) . "%' OR ISBN LIKE '%" . trim($keyword) . "%' OR ";
-		}
-		else{
-			foreach($_GET['searchon'] as $selected){
-				$sql .= $selected . " LIKE '%" . trim($keyword) . "%' OR ";
-			}
+			WHERE ";
+
+	if($_GET['searchon'][0] == 'anywhere'){
+		$sql .= "title LIKE '%" . $_GET['searchfor'] . "%' OR author LIKE '%" . $_GET['searchfor'] . "%' 
+		OR publisher LIKE '%" . $_GET['searchfor'] . "%' OR ISBN LIKE '%" . $_GET['searchfor'] . "%' OR ";
+	}
+	else{
+		foreach($_GET['searchon'] as $selected){
+			$sql .= $selected . " LIKE '%" . $_GET['searchfor'] . "%' OR ";
 		}
 	}
 	$sql = substr($sql, 0, strlen($sql)-3);
-	$sql .= ")";
 	if($_GET['category'] != "all"){
 		$sql .= " AND category = '" . $_GET['category'] . "'";
 	}
@@ -25,11 +22,12 @@
 	
 	//Session work for cart
 	session_start();
-	if (!isset($_SESSION["cart"]))	{
+	if (!isset($_SESSION["cart"]))	
 		$_SESSION["cart"] = array();
-	}
-	array_push($_SESSION["cart"], $_GET["cartisbn"]);
-	
+
+	if(isset($_GET['cartisbn']))
+		@array_push($_SESSION["cart"], $_GET["cartisbn"]);
+
 	$incart = count($_SESSION["cart"]);
 	
 	
@@ -46,7 +44,13 @@
 	}
 	//add to cart
 	function cart(isbn, searchfor, searchon, category){
-		window.location.href="screen3.php?cartisbn="+ isbn + "&searchfor=" + $_GET['searchfor'] + "&searchon=" + $_GET['searchon'] + "&category=" + $_GET['category'];
+		var url = "screen3.php?cartisbn="+ isbn + "&searchfor=" + searchfor;
+		for(var i=0; i<searchon.length; i++){//in sch){
+			url += "&searchon[]=" + searchon[i];
+		}
+		url += "&category=" + category;
+		window.location.href = url;
+		return false;
 	}
 	</script>
 </head>
@@ -75,20 +79,31 @@
 				<?php
 				include 'common.php';
 				db_open();
-				//$sql = "SELECT ISBN, title, author, publisher, price FROM book";
 
 				if ($result = mysqli_query($link, $sql)) {
 					while($row = mysqli_fetch_assoc($result) ){
 						// Add cart button
-						echo "<tr><td align='left'><button name='btnCart' id='btnCart' onClick='cart(". $row["ISBN"] . ", \"\", \"Array\", \"all\")'>Add to Cart</button></td>";
+
+				?>
+						<script type ="text/javascript">var arr = <?php echo json_encode($_GET['searchon']); ?>;</script> 
+						<tr><td align='left'><button name='btnCart' id='btnCart' onClick="return cart('<?=$row['ISBN']?>', '<?=$_GET['searchfor']?>', arr, '<?=$_GET['category']?>')">Add to Cart</button></td>
+				<?php		
 						// book info
+						for($i = 0;  $i<count($_SESSION['cart']); $i++){
+							if($_SESSION['cart'][$i] == $row['ISBN']){
+								echo( "cart: " . $_SESSION['cart'][$i] . " isbn: " . $row['ISBN']);
+				?>
+								<script>document.getElementById("btnCart").disabled = true;</script>
+				<?php
+							}
+						}
 						echo " <td rowspan='2' align='left'>" .$row["title"]. "</br>By " .$row["author"]. "</br><b>Publisher:</b> " .$row["publisher"]. ",</br><b>ISBN:</b> " .$row["ISBN"]. "</t> <b>Price:</b> $" .$row["price"]. "</td></tr>";
 						// reviews button
 				
 				
 						//echo "<tr><td align='left'><button name='review' id='review' onClick=\" return review('". $row['ISBN'] . ", '" . $row['title'] . "'\");" . ">Reviews</button>";
 				?>
-						<tr><td align='left'><button name='review' id='review' onClick="return review( '<?=$row['ISBN']?>', '<?=$row['title']?>');">Reviews</button>
+						<tr><td align='left'><button name='review' id='review' onClick="return review( '<?=$row['ISBN']?>', '<?=$row['title']?>')">Reviews</button>
 				<?php			
 						echo "</td></tr><tr><td colspan='2'><p><hr></p></td></tr>";
 					}

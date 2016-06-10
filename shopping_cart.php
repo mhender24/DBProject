@@ -12,6 +12,8 @@
 <body>
 	<?php
 	session_start();
+	include 'common.php';
+	db_open();
 	//Checks to see if there is a cart session variable
 	if(isset($_SESSION["cart"]))	{
 		$cart = $_SESSION["cart"];
@@ -25,7 +27,7 @@
 			$sql = "SELECT title, author, ISBN, price
 					FROM book
 					WHERE ISBN='" . $cart[$i] . "';";
-			
+
 			//Puts information into html that populates table
 			if ($result = mysqli_query($link, $sql))	{
 				$row = mysqli_fetch_assoc($result);
@@ -46,7 +48,7 @@
 			
 		}
 	}
-	
+			db_close();
 	?>
 	
 
