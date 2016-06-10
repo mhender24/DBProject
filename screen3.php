@@ -86,13 +86,18 @@
 
 				?>
 						<script type ="text/javascript">var arr = <?php echo json_encode($_GET['searchon']); ?>;</script> 
-						<tr><td align='left'><button name='btnCart' id='btnCart' onClick="return cart('<?=$row['ISBN']?>', '<?=$_GET['searchfor']?>', arr, '<?=$_GET['category']?>')">Add to Cart</button></td>
+						<tr><td align='left'><button name='btnCart' class='btnCart' onClick="return cart('<?=$row['ISBN']?>', '<?=$_GET['searchfor']?>', arr, '<?=$_GET['category']?>')">Add to Cart</button></td>
+						<script> 	var elems = document.getElementsByClassName("btnCart"); </script>
+
 				<?php		
 						// book info
+
 						for($i = 0;  $i<count($_SESSION['cart']); $i++){
 							if($_SESSION['cart'][$i] == $row['ISBN']){
 				?>
-								<script>document.getElementById("btnCart").disabled = true;</script>
+								<script>
+								elems[<?=$i?>].disabled = true;
+								</script>
 				<?php
 							}
 						}
