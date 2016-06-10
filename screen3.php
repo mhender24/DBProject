@@ -91,7 +91,6 @@
 						// book info
 						for($i = 0;  $i<count($_SESSION['cart']); $i++){
 							if($_SESSION['cart'][$i] == $row['ISBN']){
-								echo( "cart: " . $_SESSION['cart'][$i] . " isbn: " . $row['ISBN']);
 				?>
 								<script>document.getElementById("btnCart").disabled = true;</script>
 				<?php
