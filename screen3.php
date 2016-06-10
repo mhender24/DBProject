@@ -88,7 +88,7 @@
 				
 						//echo "<tr><td align='left'><button name='review' id='review' onClick=\" return review('". $row['ISBN'] . ", '" . $row['title'] . "'\");" . ">Reviews</button>";
 				?>
-						<tr><td align='left'><button name='review' id='review' onClick="return review( <?=$row['ISBN']?>, '<?=$row['title']?>');">Reviews</button>
+						<tr><td align='left'><button name='review' id='review' onClick="return review( '<?=$row['ISBN']?>', '<?=$row['title']?>');">Reviews</button>
 				<?php			
 						echo "</td></tr><tr><td colspan='2'><p><hr></p></td></tr>";
 					}

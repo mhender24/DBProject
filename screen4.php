@@ -35,8 +35,7 @@
 				db_open();
 
 				$isbn = $_GET["isbn"];
-
-				$sql = "SELECT review_txt FROM reviews WHERE ISBN =".$isbn;
+				$sql = "SELECT review_txt FROM reviews WHERE ISBN LIKE '%".$isbn . "%'";
 
 				if ($result = mysqli_query($link, $sql)) {
 
