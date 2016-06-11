@@ -1,3 +1,15 @@
+<?php
+	session_start();
+
+	if(isset($_GET['delIsbn'])){
+		for($i=0; $i<count($_SESSION['cart']); $i++){
+			if($_SESSION['cart'][$i] == $_GET['delIsbn']){
+				array_splice($_SESSION['cart'], $i, 1);
+			}
+		}
+	}
+?>
+
 <!-- Shopping cart Screen provided by Dr Krish Narayanan via canvas -->
 <!DOCTYPE HTML>
 <head>
@@ -11,7 +23,6 @@
 </head>
 <body>
 	<?php
-	session_start();
 	include 'common.php';
 	db_open();
 	//Checks to see if there is a cart session variable
@@ -39,7 +50,7 @@
 				$subtotal += $price;
 				
 				$html .= "<tr>
-							<td width='10%'><input type='checkbox' name='remove' value='" . $i . "'></td>
+							<td width='10%'><input type='button' name='remove' value='Delete Item' onClick=del('". $row['ISBN'] . "')></td>
 							<td width='60%'>" . $desc . "</td>
 							<td width='10%'><input size='2' type='number' name='quantity' min='1' value='1'></td>
 							<td width='10%'>$" . $price . "</td>
@@ -47,6 +58,7 @@
 			}	
 			
 		}
+
 	}
 			db_close();
 	?>
