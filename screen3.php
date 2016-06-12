@@ -85,22 +85,31 @@
 						// Add cart button
 
 				?>
-						<script type ="text/javascript">var arr = <?php echo json_encode($_GET['searchon']); ?>;</script> 
+						<script type ="text/javascript">
+							var arr = <?php echo json_encode($_GET['searchon']); ?>;
+							var size = <?php echo count($_SESSION['cart']); ?>;
+							var cart_arr = <?php echo json_encode($_SESSION['cart']); ?>;
+							var row ='<?= $row['ISBN'] ?>';
+						</script> 
 						<tr><td align='left'><button name='btnCart' class='btnCart' onClick="return cart('<?=$row['ISBN']?>', '<?=$_GET['searchfor']?>', arr, '<?=$_GET['category']?>')">Add to Cart</button></td>
-						<script> 	var elems = document.getElementsByClassName("btnCart"); </script>
+						
+						<script type = "text/javascript"> 	
+							var elems = document.getElementsByClassName("btnCart"); 
+							for(var i=0; i<elems.length; i++){
 
-				<?php		
 						// book info
 
-						for($i = 0;  $i<count($_SESSION['cart']); $i++){
-							if($_SESSION['cart'][$i] == $row['ISBN']){
-				?>
-								<script>
-								elems[<?=$i?>].disabled = true;
-								</script>
-				<?php
+								for(var j = 0;  j < size; j++){
+									console.log("arr: " + cart_arr[j]);
+									if(cart_arr[j] == row){
+										console.log("arr: " + cart_arr[j] + "   isbn: " + row);
+										elems[i].disabled = true;
+									}
+								}
 							}
-						}
+						</script>
+
+				<?php
 						echo " <td rowspan='2' align='left'>" .$row["title"]. "</br>By " .$row["author"]. "</br><b>Publisher:</b> " .$row["publisher"]. ",</br><b>ISBN:</b> " .$row["ISBN"]. "</t> <b>Price:</b> $" .$row["price"]. "</td></tr>";
 						// reviews button
 				
