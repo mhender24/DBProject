@@ -14,6 +14,12 @@
 </head>
 <body>
 
+	<script>
+	function goBack() {
+	    window.history.back();
+	}
+	</script>
+
 	<table align="center" style="border:1px solid blue;">
 		<tr>
 			<td align="center">
@@ -64,11 +70,8 @@
 				}else {
 				echo "<tr><p> No Reviews Yet </p></tr>";
 				}
-
 			db_close();
-
 			 ?>
-
 			</table>
 			</div>
 			</td>
@@ -76,7 +79,7 @@
 		<tr>
 			<td colspan="2" align="center">
 				<form action="screen2.php" method="post">
-					<input type="submit" value="Done">
+					<button onclick="goBack()">done</button>
 				</form>
 			</td>
 		</tr>
