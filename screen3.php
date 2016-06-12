@@ -55,6 +55,7 @@
 	</script>
 </head>
 <body>
+	<script> 	var count = 0; </script>
 	<table align="center" style="border:1px solid blue;">
 		<tr>
 			<td align="left">
@@ -79,7 +80,6 @@
 				<?php
 				include 'common.php';
 				db_open();
-
 				if ($result = mysqli_query($link, $sql)) {
 					while($row = mysqli_fetch_assoc($result) ){
 						// Add cart button
@@ -95,18 +95,18 @@
 						
 						<script type = "text/javascript"> 	
 							var elems = document.getElementsByClassName("btnCart"); 
-							for(var i=0; i<elems.length; i++){
+							for(var i=0; i<cart_arr.length; i++){
 
 						// book info
 
-								for(var j = 0;  j < size; j++){
-									console.log("arr: " + cart_arr[j]);
-									if(cart_arr[j] == row){
-										console.log("arr: " + cart_arr[j] + "   isbn: " + row);
-										elems[i].disabled = true;
+									if(cart_arr[i] == row){
+										console.log("num: " + i);
+										console.log("arr: " + cart_arr[i] + "   isbn: " + row);
+										elems[count].disabled = true;
 									}
-								}
+							//	}
 							}
+							count += 1;
 						</script>
 
 				<?php
