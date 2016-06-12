@@ -1,8 +1,8 @@
 <?php
-$db_server = "db2.emich.edu";
-$db_user = "201605_471_g04";
-$db_password = "68WM6UZ644IP";
-$db_name = "201605_471_g04";
+$db_server = "localhost";
+	$db_user = "201605_471_g04";
+	$db_password = "68WM6UZ644IP";
+	$db_name = "201605_471_g04";
 
 	function db_open()	{
 		global $link, $db_server, $db_user, $db_password, $db_name;
