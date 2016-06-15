@@ -3,7 +3,21 @@
 <head>
 <title>Admin Login</title>
 </head>
+<?php
+$error = "";
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$user_name = $_POST["adminname"];
+$pin = $_POST["pin"];
+
+		if ($pin == "group4" && $user_name == "admin"){
+			header('Location: admin_view.php');
+		} else {
+			$error = "Invalid Username/password";
+		}
+	}
+
+?>
 <body>
 <table align="center" style="border:2px solid blue;">
 		<form action="" method="post" id="adminlogin_screen">
@@ -32,9 +46,9 @@
 			</td>
 			</form>
 		</tr>
-	</table>
-</body>
 
+</body>
+<?php echo "<table align='center'> <td align='right'><span style='color:red'>" . $error . "</span></td></table>" ?>
 
 
 </html>

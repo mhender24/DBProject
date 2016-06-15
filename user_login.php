@@ -24,18 +24,17 @@
 				$_SESSION['current_user'] = $_POST['username'];
 				header('Location: screen2.php');
 			} else {
-				header('Location: user_login.php');
 				$error = "Invalid Username/password";
 			}
 		}
 	}
 
-	//db_close();
+
 
 	?>
 	<table align="center" style="border:2px solid blue;">
 
-		<form action="<?php  ?>" method="post" id="login_screen">
+		<form action="" method="post" id="login_screen">
 		<tr>
 			<td align="right">
 				Username<span style="color:red">*</span>:
@@ -62,7 +61,7 @@
 			</form>
 		</tr>
 	</table>
-	<?php echo $error ?>
+	<?php echo "<table align='center'> <td align='right'><span style='color:red'>" . $error . "</span></td></table>" ?>
 </body>
 
 </html>
