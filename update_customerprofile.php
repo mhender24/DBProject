@@ -1,15 +1,47 @@
 <!-- update user Screen provided by Dr Krish Narayanan via canvas -->
+<?php
+	session_start();
+	include 'common.php';
+	db_open();
+	$error = "";
+	if(isset($_POST['update_submit'])){
+		$update_sql = 	"UPDATE users
+					 	 SET pin = '" . $_POST['new_pin'] .
+					 	 "', fname = '" . $_POST['firstname'] .
+					 	 "', lname = '" . $_POST['lastname'] . 
+					 	 "', address = '" . $_POST['address'] . 
+					 	 "', city = '" . $_POST['city'] . 
+					 	 "', state = '" . $_POST['state'] .
+					 	 "', zip = '" . $_POST['zip'] .
+					 	 "', CCtype = '" . $_POST['credit_card'] .
+					 	 "', CCnum = '" . $_POST['card_number'] . 
+					 	 "', CCexp = '2016-01-02' 
+					 	 WHERE user_name = '" . $_SESSION['current_user'] . "'";
+		if (!mysqli_query($link,$update_sql))
+			$error = "Error, could not update";		
+		else
+			header("Location: proof_purchase.php");				 	 
+	}
+		$sql = "SELECT *
+				FROM users
+				WHERE user_name ='" . $_SESSION['current_user'] ."'";
+		$result =  mysqli_query($link, $sql);
+		$row = mysqli_fetch_assoc($result);
+?>
+
+
 <!DOCTYPE HTML>
 <head>
 <title>UPDATE CUSTOMER PROFILE</title>
 
 </head>
 <body>
+	<?php echo $error; ?>
 	<form id="update_profile" action="" method="post">
 	<table align="center" style="border:2px solid blue;">
 		<tr>
 			<td align="right">
-				Username:
+				Username: <?=$row['user_name']?>;
 			</td>
 			<td colspan="3" align="center">
 							</td>
@@ -19,13 +51,13 @@
 				New PIN<span style="color:red">*</span>:
 			</td>
 			<td>
-				<input type="text" id="new_pin" name="new_pin">
+				<input type="text" id="new_pin" name="new_pin" value="<?=$row['pin']?>">
 			</td>
 			<td align="right">
 				Re-type New PIN<span style="color:red">*</span>:
 			</td>
 			<td>
-				<input type="text" id="retypenew_pin" name="retypenew_pin">
+				<input type="text" id="retypenew_pin" name="retypenew_pin" value="<?=$row['pin']?>">
 			</td>
 		</tr>
 		<tr>
@@ -33,7 +65,7 @@
 				First Name<span style="color:red">*</span>:
 			</td>
 			<td colspan="3">
-				<input type="text" id="firstname" name="firstname">
+				<input type="text" id="firstname" name="firstname" value="<?=$row['fname']?>">
 			</td>
 		</tr>
 		<tr>
@@ -41,7 +73,7 @@
 				Last Name<span style="color:red">*</span>:
 			</td>
 			<td colspan="3">
-				<input type="text" id="lastname" name="lastname">
+				<input type="text" id="lastname" name="lastname" value="<?=$row['lname']?>">
 			</td>
 		</tr>
 		<tr>
@@ -49,7 +81,7 @@
 				Address<span style="color:red">*</span>:
 			</td>
 			<td colspan="3">
-				<input type="text" id="address" name="address">
+				<input type="text" id="address" name="address" value="<?=$row['address']?>">
 			</td>
 		</tr>
 		<tr>
@@ -57,7 +89,7 @@
 				City<span style="color:red">*</span>:
 			</td>
 			<td colspan="3">
-				<input type="text" id="city" name="city">
+				<input type="text" id="city" name="city" value="<?=$row['city']?>">
 			</td>
 		</tr>
 		<tr>
@@ -67,16 +99,16 @@
 			<td>
 				<select id="state" name="state">
 				<option selected disabled>select a state</option>
-				<option>Michigan</option>
-				<option>California</option>
-				<option>Tennessee</option>
+				<option value = "MI" <? if($row['state'] == "MI") echo(" selected=\"selected\"");  ?> Michigan </option>
+				<option value = "CA" <? if($row['state'] == "CA") echo(" selected=\"selected\"");  ?> California </option>
+				<option value = "TN" <? if($row['state'] == "TN") echo(" selected=\"selected\"");  ?> Tennessee </option>
 				</select>
 			</td>
 			<td align="right">
 				Zip<span style="color:red">*</span>:
 			</td>
 			<td>
-				<input type="text" id="zip" name="zip">
+				<input type="text" id="zip" name="zip" value = "<?=$row['zip']?>">
 			</td>
 		</tr>
 		<tr>
@@ -86,13 +118,13 @@
 			<td>
 				<select id="credit_card" name="credit_card">
 				<option selected disabled>select a card type</option>
-				<option>VISA</option>
-				<option>MASTER</option>
-				<option>DISCOVER</option>
+				<option <?php if($row['CCtype'] == "VISA") echo(" selected=\"selected\"")  ?> >VISA </option>
+				<option <?php if($row['CCtype'] == "MASTER") echo(" selected=\"selected\"")  ?> >MASTER </option>
+				<option <?php if($row['CCtype'] == "DISCOVER") echo(" selected=\"selected\"")  ?> >DISCOVER </option>
 				</select>
 			</td>
 			<td align="left" colspan="2">
-				<input type="text" id="card_number" name="card_number" placeholder="Credit card number">
+				<input type="text" id="card_number" name="card_number" value = "<?=$row['CCnum']?>">
 			</td>
 		</tr>
 		<tr>
@@ -100,7 +132,7 @@
 				Expiration Date<span style="color:red">*</span>:
 			</td>
 			<td colspan="2" align="left">
-				<input type="text" id="expiration_date" name="expiration_date" placeholder="MM/YY">
+				<input type="text" id="expiration_date" name="expiration_date" value='03/19'>
 			</td>
 		</tr>
 		<tr>
@@ -108,7 +140,7 @@
 				<input type="submit" id="update_submit" name="update_submit" value="Update">
 			</td>
 			</form>
-		<form id="cancel" action="" method="post">
+		<form id="cancel" action="proof_purchase.php" method="post">
 			<td align="left" colspan="2">
 				<input type="submit" id="cancel_submit" name="cancel_submit" value="Cancel">
 			</td>
@@ -117,3 +149,13 @@
 	</form>
 </body>
 </html>
+
+
+<?php
+
+
+
+
+?>
+
+

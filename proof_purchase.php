@@ -53,17 +53,17 @@
 	</tr>
 	<tr>
 		<td align="right">
-			<input type="submit" id="buyit" name="btnbuyit" value="Print" disabled>
+			<input type="submit" id="buyit" name="btnbuyit" value="BUY IT!" disabled>
 		</td>
 		</form>
 		<td align="right">
-			<form id="update" action="screen2.php" method="post">
-			<input type="submit" id="update_customerprofile" name="update_customerprofile" value="New Search">
+			<form id="update" action="update_customerprofile.php" method="post">
+			<input type="submit" id="update_customerprofile" name="update_customerprofile" value="Update Customer">
 			</form>
 		</td>
 		<td align="left">
 			<form id="cancel" action="screen1.php" method="post">
-			<input type="submit" id="exit" name="exit" value="EXIT 3-B.com">
+			<input type="submit" id="exit" name="exit" value="cancel">
 			</form>
 		</td>
 	</tr>

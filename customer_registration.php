@@ -30,7 +30,8 @@
 			else{
     			$sql="INSERT INTO users values('$_POST[username]','$_POST[pin]','$_POST[firstname]',
     					'$_POST[lastname]','$_POST[address]','$_POST[city]','$_POST[state]',
-    					'$_POST[zip]', '$_POST[credit_card]', '$_POST[card_number]',$_POST[expiration])";
+    					'$_POST[zip]', '$_POST[credit_card]', '$_POST[card_number]','2016-03-01')";
+				echo $sql;
     			if (!mysqli_query($link,$sql))
         			$error = "User could not be added";
         		else{
@@ -116,12 +117,12 @@
 			<td align="left">
 				<select id="state" name="state">
 				<option selected disabled>select a state</option>
-				<option value="Michigan"
- 					<? if($varGender=="Michigan") echo(" selected=\"selected\"");?> Michigan</option>
-				<option value="California"
- 					<? if($varGender=="California") echo(" selected=\"selected\"");?> California</option>
-				<option value="Tennessee"
- 					<? if($varGender=="Tennessee") echo(" selected=\"selected\"");?> Tennessee</option>
+				<option value="MI"
+ 					<? if($varGender=="MI") echo(" selected=\"selected\"");?> Michigan</option>
+				<option value="CA"
+ 					<? if($varGender=="CA") echo(" selected=\"selected\"");?> California</option>
+				<option value="TN"
+ 					<? if($varGender=="TN") echo(" selected=\"selected\"");?> Tennessee</option>
 				</select>
 			</td>
 			<td align="right">
