@@ -31,7 +31,7 @@
 		$cartlength = count($cart);
 		$html = "";
 		$subtotal = 0;
-		
+
 		//Loops through the cart array
 		for($i = 0; $i < $cartlength; $i++)	{
 			//sql that is disgustingly run to find data based on cart ISBNs
@@ -45,29 +45,29 @@
 				$desc = "" . $row['title'] . "<br>"
 						. $row['author'] . "<br>"
 						. $row['ISBN'];
-						
+
 				$price = $row["price"];
 				$subtotal += $price;
-				
+
 				$html .= "<tr>
 							<td width='10%'><input type='button' name='remove' value='Delete Item' onClick=del('". $row['ISBN'] . "')></td>
 							<td width='60%'>" . $desc . "</td>
 							<td width='10%'><input size='2' type='number' name='quantity' min='1' value='1'></td>
 							<td width='10%'>$" . $price . "</td>
 						</tr>";
-			}	
-			
+			}
+
 		}
 
 	}
 			db_close();
 	?>
-	
+
 
 	<table align="center" style="border:2px solid blue;">
 		<tr>
 			<td align="center">
-				<form id="checkout" action="" method="get">
+			<form id="checkout" action="customer_registration.php" method="get">
 					<input type="submit" name="checkout_submit" id="checkout_submit" value="Proceed to Checkout">
 				</form>
 			</td>
@@ -102,7 +102,7 @@
 				&nbsp;
 			</td>
 			<td align="center">
-				Subtotal:  <?= $subtotal; ?>	
+				Subtotal:  <?= $subtotal; ?>
 			</td>
 		</tr>
 	</table>
