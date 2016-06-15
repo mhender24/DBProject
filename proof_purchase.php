@@ -14,7 +14,7 @@
 	//			 WHERE ISBN = ";
 	$subtotal = 0.0;
 	$shipping = 2.00 * count($_SESSION['cart']);
-	$cart_sql = "SELECT title, price
+	$cart_sql = "SELECT title, price, author
 				 FROM book
 				 WHERE ISBN = ";
 	for($i=0; $i<count($_SESSION['cart']); $i++){
@@ -45,9 +45,9 @@
 		<?php 	echo $user_row['fname'] . " " . $user_row['lname'] . "</br>"; ?></td>
 	<td rowspan="3" colspan="2">
 		<b>UserID:</b><?=$user_row['user_name']?><br />
-		<b>Date:</b><?php echo  " " . date('m/d/Y'); ?><br />
-		<b>Time:</b><?php echo " " . date('g:i A'); ?><br />
-		<b>Card Info:</b><?=$user_row['CCtype']?> - <?=$user_row['CCnum']?></td>
+		<b>Date:</b><?php echo  " " . date('m/d/y'); ?><br />
+		<b>Time:</b><?php echo " " . date('G:i:s'); ?><br />
+		<b>Card Info:</b></br><?=$user_row['CCtype']?> - <?=$user_row['CCnum']?></td>
 	<tr>
 	<td colspan="2">
 		<?php 	echo $user_row['address'] . "</br>"; ?></td>
@@ -68,7 +68,7 @@
 		<tr><th>Book Description</th><th>Qty</th><th>Price</th></tr>
 		<?php
 			while($cart_row = mysqli_fetch_assoc($cart_result) ){
-				echo "<tr><td>" . $cart_row['title'] . "</td><td>1</td><td>" . $cart_row['price'] . "</td></tr>";
+				echo "<tr><td>" . $cart_row['title'] . "</br><strong>BY</strong>: " . $cart_row['author'] . "</br><strong>Price:</strong> " . $cart_row['price'] . "</td><td>1</td><td>" . $cart_row['price'] . "</td></tr>";
 				$subtotal += $cart_row['price'];
 
 			}
@@ -90,17 +90,17 @@
 	</tr>
 	<tr>
 		<td align="right">
-			<input type="submit" id="buyit" name="btnbuyit" value="BUY IT!" disabled>
+			<input type="submit" id="buyit" name="btnbuyit" value="Print" disabled>
 		</td>
 		</form>
 		<td align="right">
-			<form id="update" action="update_customerprofile.php" method="post">
-			<input type="submit" id="update_customerprofile" name="update_customerprofile" value="Update Customer">
+			<form id="update" action="screen2.php" method="post">
+			<input type="submit" id="update_customerprofile" name="update_customerprofile" value="New Search">
 			</form>
 		</td>
 		<td align="left">
 			<form id="cancel" action="screen1.php" method="post">
-			<input type="submit" id="exit" name="exit" value="cancel">
+			<input type="submit" id="exit" name="exit" value="Exit 3-B.com">
 			</form>
 		</td>
 	</tr>
