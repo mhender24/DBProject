@@ -1,3 +1,32 @@
+<?php
+	date_default_timezone_set('America/Detroit');
+	session_start();
+	include 'common.php';
+	db_open();
+	$user_sql = "SELECT user_name, fname, lname, address, city, state, zip, CCtype, CCnum
+			FROM users
+			WHERE user_name = '" . $_SESSION['current_user'] ."'";
+	$user_result = mysqli_query($link, $user_sql);
+	$user_row = mysqli_fetch_assoc($user_result);
+
+	//$cart_sql = "SELECT b.title, b.price, c.quantity
+	//			 FROM book as b natural join order_contents as c
+	//			 WHERE ISBN = ";
+	$subtotal = 0.0;
+	$shipping = 2.00 * count($_SESSION['cart']);
+	$cart_sql = "SELECT title, price
+				 FROM book
+				 WHERE ISBN = ";
+	for($i=0; $i<count($_SESSION['cart']); $i++){
+		$cart_sql .= "'" . $_SESSION['cart'][$i] . "' OR ISBN = ";
+	}
+	$cart_sql = substr($cart_sql, 0, strlen($cart_sql)-11);
+
+	$cart_result = mysqli_query($link, $cart_sql);
+
+
+?>
+
 
 <!DOCTYPE HTML>
 <head>
@@ -9,33 +38,41 @@
 	<form id="buy" action="" method="post">
 	<tr>
 	<td>
-	Shipping Address:
+	Shipping Address:</br>
 	</td>
 	</tr>
 	<td colspan="2">
-		k n	</td>
+		<?php 	echo $user_row['fname'] . " " . $user_row['lname'] . "</br>"; ?></td>
 	<td rowspan="3" colspan="2">
-		<b>UserID:</b>kn<br />
-		<b>Date:</b>2016-05-17<br />
-		<b>Time:</b>22:43:38<br />
-		<b>Card Info:</b>VISA<br />03/19 - 1234567890123456	</td>
+		<b>UserID:</b><?=$user_row['user_name']?><br />
+		<b>Date:</b><?php echo  " " . date('m/d/Y'); ?><br />
+		<b>Time:</b><?php echo " " . date('g:i A'); ?><br />
+		<b>Card Info:</b><?=$user_row['CCtype']?> - <?=$user_row['CCnum']?></td>
 	<tr>
 	<td colspan="2">
-		65 ff st	</td>
+		<?php 	echo $user_row['address'] . "</br>"; ?></td>
 	</tr>
 	<tr>
 	<td colspan="2">
-		bri	</td>
+		<?php 	echo $user_row['city'] . "</br>"; ?></td>
 	</tr>
 	<tr>
 	<td colspan="2">
-		Michigan, 48114	</td>
+		<?php 	echo $user_row['state'] . ", " . $user_row['zip'] . "</br>";  ?> </td>
 	</tr>
 	<tr>
 	<td colspan="3" align="center">
 	<div id="bookdetails" style="overflow:scroll;height:180px;width:520px;border:1px solid black;">
 	<table border='1'>
-		<th>Book Description</th><th>Qty</th><th>Price</th>
+
+		<tr><th>Book Description</th><th>Qty</th><th>Price</th></tr>
+		<?php
+			while($cart_row = mysqli_fetch_assoc($cart_result) ){
+				echo "<tr><td>" . $cart_row['title'] . "</td><td>1</td><td>" . $cart_row['price'] . "</td></tr>";
+				$subtotal += $cart_row['price'];
+
+			}
+		?>
 			</table>
 	</div>
 	</td>
@@ -48,7 +85,7 @@
 	</td>
 	<td align="right">
 	<div id="bookdetails" style="overflow:scroll;height:180px;width:260px;border:1px solid black;">
-		SubTotal:$0</br>Shipping_Handling:$0</br>_______</br>Total:$0	</div>
+		SubTotal: <?=$subtotal?></br>Shipping_Handling: <?php echo number_format($shipping, 2) ?>  </br>_______</br>Total: <?php echo ($subtotal + $shipping); ?></div>
 	</td>
 	</tr>
 	<tr>

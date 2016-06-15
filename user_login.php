@@ -5,14 +5,14 @@
 </head>
 <body>
 	<?php
-
+	$error = "";
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$user_name = $_POST["username"];
 	$pin = $_POST["pin"];
 	$sql = "SELECT pin
 			FROM users
-			WHERE user_name = " . $user_name;
+			WHERE user_name = '" . $user_name . "'";
 	include 'common.php';
 	db_open();
 
@@ -29,6 +29,8 @@
 			}
 		}
 	}
+
+	//db_close();
 
 	?>
 	<table align="center" style="border:2px solid blue;">
