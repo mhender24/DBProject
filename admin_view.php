@@ -16,9 +16,7 @@
 
 	$cust_count_result =  mysqli_query($link, $cust_count_sql);
 	$cust_row = mysqli_fetch_assoc($cust_count_result);
-
 	
-
 ?>
 
 

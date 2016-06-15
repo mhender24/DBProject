@@ -1,6 +1,7 @@
 <!-- Customer registration Screen provided by Dr Krish Narayanan via canvas -->
 <!-- UI: Prithviraj Narahari, php code: Alexander Martens -->
 <?php
+	session_start();
 	require_once("common.php");
 	$error = "";
 	// include common variables and functions
@@ -32,11 +33,15 @@
     					'$_POST[zip]', '$_POST[credit_card]', '$_POST[card_number]',$_POST[expiration])";
     			if (!mysqli_query($link,$sql))
         			$error = "User could not be added";
+        		else{
+        			$_SESSION['current_user'] = $_POST['username'];
+        			header("Location: proof_purchase.php");
+        		}
 			}
 		}
 	}
 	else if(isset($_POST['donotregister'])){
-		header("Location: screen1.php");
+		header("Location: no_register.php");
 	}
 	echo $error;
 	db_close();

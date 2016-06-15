@@ -67,7 +67,7 @@
 	<table align="center" style="border:2px solid blue;">
 		<tr>
 			<td align="center">
-				<form id="checkout" action="" method="get">
+				<form id="checkout" action="customer_registration.php" method="get">
 					<input type="submit" name="checkout_submit" id="checkout_submit" value="Proceed to Checkout">
 				</form>
 			</td>
