@@ -10,7 +10,7 @@
 			    	if(radio[i].checked){
 						redirect = radio[i].value;
 			    	}
-				}	
+				}
 				document.location=redirect;
 				return false;
 	    	j}
@@ -32,5 +32,3 @@
 </body>
 
 </html>
-
-
