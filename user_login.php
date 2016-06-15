@@ -29,7 +29,9 @@
 			}
 		}
 	}
+
 	//db_close();
+
 	?>
 	<table align="center" style="border:2px solid blue;">
 

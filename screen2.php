@@ -47,6 +47,6 @@
 				<td><input type="submit" name="exit" value="EXIT 3-B.com" /></td>
 			</form>
 		</tr>
-	</table>
+	</table>	
 </body>
 </html>
