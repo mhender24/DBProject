@@ -37,7 +37,11 @@
 			<td>Category: </td>
 				<td><select name="category">
 						<option value='all' selected='selected'>All Categories</option>
-						<option value='fantasy'>Fantasy</option><option value='adventure'>Adventure</option><option value='fiction'>Fiction</option><option value='horror'>Horror</option>				</select></td>
+						<option value='fantasy'>Fantasy</option>
+						<option value='adventure'>Adventure</option>
+						<option value='fiction'>Fiction</option>
+						<option value='horror'>Horror</option>
+						</select></td>
 				</form>
 	<form action="screen1.php" method="post">
 				<td><input type="submit" name="exit" value="EXIT 3-B.com" /></td>

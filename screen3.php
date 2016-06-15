@@ -1,12 +1,12 @@
 <!-- Screen3 provided by Dr Krish Narayanan via canvas -->
 <!-- Figure 3: Search Result Screen by Prithviraj Narahari, php coding: Alexander Martens -->
 <?php
-	$sql = "SELECT ISBN, title, author, publisher, price 
-			FROM book 
+	$sql = "SELECT ISBN, title, author, publisher, price
+			FROM book
 			WHERE ";
 
 	if($_GET['searchon'][0] == 'anywhere'){
-		$sql .= "title LIKE '%" . $_GET['searchfor'] . "%' OR author LIKE '%" . $_GET['searchfor'] . "%' 
+		$sql .= "title LIKE '%" . $_GET['searchfor'] . "%' OR author LIKE '%" . $_GET['searchfor'] . "%'
 		OR publisher LIKE '%" . $_GET['searchfor'] . "%' OR ISBN LIKE '%" . $_GET['searchfor'] . "%' OR ";
 	}
 	else{
@@ -19,18 +19,18 @@
 		$sql .= " AND category = '" . $_GET['category'] . "'";
 	}
 	//echo $sql;
-	
+
 	//Session work for cart
 	session_start();
-	if (!isset($_SESSION["cart"]))	
+	if (!isset($_SESSION["cart"]))
 		$_SESSION["cart"] = array();
 
 	if(isset($_GET['cartisbn']))
 		@array_push($_SESSION["cart"], $_GET["cartisbn"]);
 
 	$incart = count($_SESSION["cart"]);
-	
-	
+
+
 ?>
 
 <html>
@@ -90,11 +90,11 @@
 							var size = <?php echo count($_SESSION['cart']); ?>;
 							var cart_arr = <?php echo json_encode($_SESSION['cart']); ?>;
 							var row ='<?= $row['ISBN'] ?>';
-						</script> 
+						</script>
 						<tr><td align='left'><button name='btnCart' class='btnCart' onClick="return cart('<?=$row['ISBN']?>', '<?=$_GET['searchfor']?>', arr, '<?=$_GET['category']?>')">Add to Cart</button></td>
-						
-						<script type = "text/javascript"> 	
-							var elems = document.getElementsByClassName("btnCart"); 
+
+						<script type = "text/javascript">
+							var elems = document.getElementsByClassName("btnCart");
 							for(var i=0; i<cart_arr.length; i++){
 
 						// book info
@@ -112,12 +112,12 @@
 				<?php
 						echo " <td rowspan='2' align='left'>" .$row["title"]. "</br>By " .$row["author"]. "</br><b>Publisher:</b> " .$row["publisher"]. ",</br><b>ISBN:</b> " .$row["ISBN"]. "</t> <b>Price:</b> $" .$row["price"]. "</td></tr>";
 						// reviews button
-				
-				
+
+
 						//echo "<tr><td align='left'><button name='review' id='review' onClick=\" return review('". $row['ISBN'] . ", '" . $row['title'] . "'\");" . ">Reviews</button>";
 				?>
 						<tr><td align='left'><button name='review' id='review' onClick="return review( '<?=$row['ISBN']?>', '<?=$row['title']?>')">Reviews</button>
-				<?php			
+				<?php
 						echo "</td></tr><tr><td colspan='2'><p><hr></p></td></tr>";
 					}
 			}else {

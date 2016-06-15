@@ -19,10 +19,10 @@
 
 		if($_POST['pin'] != $_POST['retype_pin'])
 			$error = "pins do not match.  Please try again";
-		
+
 		if(empty($error)){
-			$sql ="SELECT * 
-				   FROM users 
+			$sql ="SELECT *
+				   FROM users
 				   WHERE user_name = '$_POST[username]'";
 			$result = mysqli_query($link,$sql);
 			if($result->num_rows > 0)
@@ -34,10 +34,10 @@
 				echo $sql;
     			if (!mysqli_query($link,$sql))
         			$error = "User could not be added";
-        		else{
-        			$_SESSION['current_user'] = $_POST['username'];
-        			header("Location: proof_purchase.php");
-        		}
+							else{
+		        			$_SESSION['current_user'] = $_POST['username'];
+		        			header("Location: proof_purchase.php");
+		        		}
 			}
 		}
 	}
