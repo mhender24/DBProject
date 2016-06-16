@@ -36,7 +36,7 @@
         			$error = "User could not be added";
 							else{
 								$_SESSION['current_user'] = $_POST['username'];
-							if ($_POST['checking_out'])	{
+							if ($_POST['checkout'] == 'checkout')	{
 								header("Location: proof_purchase.php");
 							}	else	{
 								header("Location: screen2.php");
