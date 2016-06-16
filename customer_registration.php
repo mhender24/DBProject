@@ -35,8 +35,12 @@
     			if (!mysqli_query($link,$sql))
         			$error = "User could not be added";
 							else{
-		        			$_SESSION['current_user'] = $_POST['username'];
-		        			header("Location: proof_purchase.php");
+								$_SESSION['current_user'] = $_POST['username'];
+							if ($_POST['checking_out'])	{
+								header("Location: proof_purchase.php");
+							}	else	{
+								header("Location: screen2.php");
+							}
 		        		}
 			}
 		}
@@ -46,7 +50,7 @@
 	}
 	echo $error;
 	db_close();
-
+	
 ?>
 
 <HTML>
@@ -57,6 +61,11 @@
 	<table align="center" style="border:2px solid blue;">
 		<tr>
 			<form id="register" action="" method="post">
+			<?php 
+				if ($_GET["checkout_submit"] == "Proceed to Checkout")	{
+					echo "<input type='hidden' name='checkout' value='checkout'>";
+				}
+			?>
 			<td align="right">
 				Username<span style="color:red">*</span>:
 			</td>
