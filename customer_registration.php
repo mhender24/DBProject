@@ -28,8 +28,8 @@
 			if($result->num_rows > 0)
     			$error = "Username already exists.  Please choose a different user name";
 			else{
-				$exp = date('Y-m-d', mktime(0, 0, 0, substr($_POST['expiration'], 0, 2), 1, substr($_POST['expiration'], -2)));t
-    			$sql="INSERT INTO users values('$_POST[username]','$_POST[pin]','$_POST[firstname]',
+				$exp = date('Y-m-d', mktime(0, 0, 0, substr($_POST['expiration'], 0, 2), 1, substr($_POST['expiration'], -2)));
+    			$sql ="INSERT INTO users values('$_POST[username]','$_POST[pin]','$_POST[firstname]',
     					'$_POST[lastname]','$_POST[address]','$_POST[city]','$_POST[state]',
     					'$_POST[zip]', '$_POST[credit_card]', '$_POST[card_number]', '$exp')";
 				echo $sql;
