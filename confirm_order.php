@@ -33,7 +33,7 @@
 		}
 		$total = $subtotal + $shipping;
 		$insert_sql = "INSERT INTO orders
-						VALUES('" .rand(1, 99999999) . "', '". $user_row['user_name'] . "', '" . date('Y-m-d') . "', " . $total . 
+						VALUES('" .rand(1, 99999999) . "', '". $user_row['user_name'] . "', '" . date('Y-m-d') . "', " . $total .
 							")";
 		if (!mysqli_query($link,$insert_sql))
 			$error = "Could not complete order.";
@@ -107,7 +107,7 @@
 	</td>
 	<td align="right">
 	<div id="bookdetails" style="overflow:scroll;height:180px;width:260px;border:1px solid black;">
-		SubTotal: <?=$subtotal?></br>Shipping_Handling: <?php echo number_format($shipping, 2) ?>  </br>_______</br>Total: <?php echo ($subtotal + $shipping); ?></div>
+		SubTotal: <?=$subtotal?></br>Shipping & Handling: <?php echo number_format($shipping, 2) ?>  </br>_______</br>Total: <?php echo ($subtotal + $shipping); ?></div>
 	</td>
 	</tr>
 	<tr>
