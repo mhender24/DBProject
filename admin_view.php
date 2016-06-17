@@ -19,8 +19,8 @@
 
 	$cust_count_result =  mysqli_query($link, $cust_count_sql);
 	$cust_row = mysqli_fetch_assoc($cust_count_result);
-
 	$month_sales_result = mysqli_query($link, $month_sales_sql);
+
 
 ?>
 
@@ -72,8 +72,11 @@
 							echo 'January';
 						} else if ($row["date"] == "2"){
 							echo 'Feburary';
+						} else if ($row["date"] == "3"){
 							echo 'March';
+						} else if($row["date"] == "4"){
 							echo 'April';
+						} else if($row["date"] == "5"){
 							echo 'May';
 						} else if($row["date"] == "6"){
 							echo 'June';
