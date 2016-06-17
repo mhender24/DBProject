@@ -1,5 +1,7 @@
 <!-- Confirm order Screen provided by Dr Krish Narayanan via canvas -->
 <?php
+	$error = "";
+
 	date_default_timezone_set('America/Detroit');
 	session_start();
 	include 'common.php';
@@ -25,7 +27,19 @@
 
 	$cart_result = mysqli_query($link, $cart_sql);
 
-
+	if(isset($_POST['btnbuyit'])){
+		while($cart_row = mysqli_fetch_assoc($cart_result) ){
+			$subtotal += $cart_row['price'];
+		}
+		$total = $subtotal + $shipping;
+		$insert_sql = "INSERT INTO orders
+						VALUES('" .rand(1, 99999999) . "', '". $user_row['user_name'] . "', '" . date('Y-m-d') . "', " . $total . 
+							")";
+		if (!mysqli_query($link,$insert_sql))
+			$error = "Could not complete order.";
+		else
+			header("Location: proof_purchase.php");
+	}
 
 ?>
 
@@ -35,6 +49,7 @@
 	<header align="center">Confirm Order</header>
 </head>
 <body>
+	<?php echo $error ?>
 	<table align="center" style="border:2px solid blue;">
 	<form id="buy" action="" method="post">
 	<tr>
