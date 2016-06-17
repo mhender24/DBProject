@@ -1,4 +1,34 @@
 <!-- Confirm order Screen provided by Dr Krish Narayanan via canvas -->
+<?php
+	date_default_timezone_set('America/Detroit');
+	session_start();
+	include 'common.php';
+	db_open();
+	$user_sql = "SELECT user_name, fname, lname, address, city, state, zip, CCtype, CCnum
+			FROM users
+			WHERE user_name = '" . $_SESSION['current_user'] ."'";
+	$user_result = mysqli_query($link, $user_sql);
+	$user_row = mysqli_fetch_assoc($user_result);
+
+	//$cart_sql = "SELECT b.title, b.price, c.quantity
+	//			 FROM book as b natural join order_contents as c
+	//			 WHERE ISBN = ";
+	$subtotal = 0.0;
+	$shipping = 2.00 * count($_SESSION['cart']);
+	$cart_sql = "SELECT title, price, author
+				 FROM book
+				 WHERE ISBN = ";
+	for($i=0; $i<count($_SESSION['cart']); $i++){
+		$cart_sql .= "'" . $_SESSION['cart'][$i] . "' OR ISBN = ";
+	}
+	$cart_sql = substr($cart_sql, 0, strlen($cart_sql)-11);
+
+	$cart_result = mysqli_query($link, $cart_sql);
+
+
+
+?>
+
 <!DOCTYPE HTML>
 <head>
 	<title>CONFIRM ORDER</title>
@@ -13,9 +43,9 @@
 	</td>
 	</tr>
 	<td colspan="2">
-		k n	</td>
+		<?php echo $user_row['fname'] . " " . $user_row['lname']; ?></td>
 	<td rowspan="3" colspan="2">
-		<input type="radio" name="cardgroup" value="profile_card" checked>Use Credit card on file<br />VISA - 1234567890123456 - 03/19<br />
+		<input type="radio" name="cardgroup" value="profile_card" checked>Use Credit card on file<br /><?php echo $user_row['CCtype'] . " - " . $user_row['CCnum']; ?><br />
 		<input type="radio" name="cardgroup" value="new_card">New Credit Card<br />
 				<select id="credit_card" name="credit_card">
 					<option selected disabled>select a card type</option>
@@ -28,21 +58,28 @@
 	</td>
 	<tr>
 	<td colspan="2">
-		65 ff st	</td>
+		<?=$user_row['address']?></td>
 	</tr>
 	<tr>
 	<td colspan="2">
-		bri	</td>
+		<?=$user_row['city']?></td>
 	</tr>
 	<tr>
 	<td colspan="2">
-		Michigan, 48114	</td>
+		<?php echo $user_row['state'] . ", " . $user_row['zip']?></td>
 	</tr>
 	<tr>
 	<td colspan="3" align="center">
 	<div id="bookdetails" style="overflow:scroll;height:180px;width:520px;border:1px solid black;">
 	<table border='1'>
 		<th>Book Description</th><th>Qty</th><th>Price</th>
+		<?php
+			while($cart_row = mysqli_fetch_assoc($cart_result) ){
+				echo "<tr><td>" . $cart_row['title'] . "</br><strong>BY</strong>: " . $cart_row['author'] . "</br><strong>Price:</strong> " . $cart_row['price'] . "</td><td>1</td><td>" . $cart_row['price'] . "</td></tr>";
+				$subtotal += $cart_row['price'];
+
+			}
+		?>
 			</table>
 	</div>
 	</td>
@@ -55,7 +92,7 @@
 	</td>
 	<td align="right">
 	<div id="bookdetails" style="overflow:scroll;height:180px;width:260px;border:1px solid black;">
-		SubTotal:$0</br>Shipping_Handling:$0</br>_______</br>Total:$0	</div>
+		SubTotal: <?=$subtotal?></br>Shipping_Handling: <?php echo number_format($shipping, 2) ?>  </br>_______</br>Total: <?php echo ($subtotal + $shipping); ?></div>
 	</td>
 	</tr>
 	<tr>
@@ -69,7 +106,7 @@
 			</form>
 		</td>
 		<td align="left">
-			<form id="cancel" action="screen1.php" method="post">
+			<form id="cancel" action="screen2.php" method="post">
 			<input type="submit" id="cancel" name="cancel" value="Cancel">
 			</form>
 		</td>

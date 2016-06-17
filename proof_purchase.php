@@ -27,7 +27,6 @@
 
 ?>
 
-
 <!DOCTYPE HTML>
 <head>
 	<title>Proof purchase</title>
