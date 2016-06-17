@@ -14,7 +14,7 @@
 	//			 WHERE ISBN = ";
 	$subtotal = 0.0;
 	$shipping = 2.00 * count($_SESSION['cart']);
-	$cart_sql = "SELECT title, price, author
+	$cart_sql = "SELECT title, price, author, ISBN
 				 FROM book
 				 WHERE ISBN = ";
 	for($i=0; $i<count($_SESSION['cart']); $i++){
@@ -23,8 +23,12 @@
 	$cart_sql = substr($cart_sql, 0, strlen($cart_sql)-11);
 
 	$cart_result = mysqli_query($link, $cart_sql);
-
-
+	
+	$cartlink = array();
+	for ($i = 0; $i < count($_SESSION["cart"]); $i++)	{
+		$cartlink[$_SESSION["cart"][$i]] = $_SESSION["quantities"][$i];
+	}
+	
 ?>
 
 <!DOCTYPE HTML>
@@ -67,7 +71,7 @@
 		<tr><th>Book Description</th><th>Qty</th><th>Price</th></tr>
 		<?php
 			while($cart_row = mysqli_fetch_assoc($cart_result) ){
-				echo "<tr><td>" . $cart_row['title'] . "</br><strong>BY</strong>: " . $cart_row['author'] . "</br><strong>Price:</strong> " . $cart_row['price'] . "</td><td>1</td><td>" . $cart_row['price'] . "</td></tr>";
+				echo "<tr><td>" . $cart_row['title'] . "</br><strong>BY</strong>: " . $cart_row['author'] . "</br><strong>Price:</strong> " . $cart_row['price'] . "</td><td>" . $cartlink[$cart_row['ISBN']] . "</td><td>" . $cart_row['price'] . "</td></tr>";
 				$subtotal += $cart_row['price'];
 
 			}

@@ -24,12 +24,19 @@
 	session_start();
 	if (!isset($_SESSION["cart"]))
 		$_SESSION["cart"] = array();
+	
+	if (!isset($_SESSION["quantities"]))
+		$_SESSION["quantities"] = array();
 
-	if(isset($_GET['cartisbn']))
+	if(isset($_GET['cartisbn']))	{
 		@array_push($_SESSION["cart"], $_GET["cartisbn"]);
-
-	$incart = count($_SESSION["cart"]);
-
+		@array_push($_SESSION["quantities"], 1);
+	}
+	
+	$incart = 0;
+	for ($i = 0; $i < count($_SESSION["quantities"]); $i++)	{
+		$incart = $incart + $_SESSION["quantities"][$i];
+	}
 
 ?>
 
