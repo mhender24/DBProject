@@ -5,28 +5,37 @@
 	db_open();
 	$error = "";
 	if(isset($_POST['update_submit'])){
-		$update_sql = 	"UPDATE users
-					 	 SET pin = '" . $_POST['new_pin'] .
-					 	 "', fname = '" . $_POST['firstname'] .
-					 	 "', lname = '" . $_POST['lastname'] . 
-					 	 "', address = '" . $_POST['address'] . 
-					 	 "', city = '" . $_POST['city'] . 
-					 	 "', state = '" . $_POST['state'] .
-					 	 "', zip = '" . $_POST['zip'] .
-					 	 "', CCtype = '" . $_POST['credit_card'] .
-					 	 "', CCnum = '" . $_POST['card_number'] . 
-					 	 "', CCexp = '2016-01-02' 
-					 	 WHERE user_name = '" . $_SESSION['current_user'] . "'";
-		if (!mysqli_query($link,$update_sql))
-			$error = "Error, could not update";		
-		else
-			header("Location: proof_purchase.php");				 	 
+		foreach($_POST as $key => $value){
+			if(empty($value)){
+				$error = $key . " not entered.  Please make sure all fields are filled";
+				break;
+			}
+		}
+		if($error == ""){
+			$exp = date('Y-m-d', mktime(0, 0, 0, substr($_POST['expiration_date'], 0, 2), 1, substr($_POST['expiration_date'], -2)));
+			$update_sql = 	"UPDATE users
+						 	 SET pin = '" . $_POST['new_pin'] .
+						 	 "', fname = '" . $_POST['firstname'] .
+						 	 "', lname = '" . $_POST['lastname'] . 
+						 	 "', address = '" . $_POST['address'] . 
+						 	 "', city = '" . $_POST['city'] . 
+						 	 "', state = '" . $_POST['state'] .
+						 	 "', zip = '" . $_POST['zip'] .
+						 	 "', CCtype = '" . $_POST['credit_card'] .
+						 	 "', CCnum = '" . $_POST['card_number'] . 
+						 	 "', CCexp = '$exp' 
+						 	 WHERE user_name = '" . $_SESSION['current_user'] . "'";
+			if (!mysqli_query($link,$update_sql))
+				$error = "Error, could not update";		
+			else
+				header("Location: confirm_order.php");				 	 
+		}
 	}
-		$sql = "SELECT *
-				FROM users
-				WHERE user_name ='" . $_SESSION['current_user'] ."'";
-		$result =  mysqli_query($link, $sql);
-		$row = mysqli_fetch_assoc($result);
+			$sql = "SELECT *
+					FROM users
+					WHERE user_name ='" . $_SESSION['current_user'] ."'";
+			$result =  mysqli_query($link, $sql);
+			$row = mysqli_fetch_assoc($result);
 ?>
 
 
@@ -41,7 +50,7 @@
 	<table align="center" style="border:2px solid blue;">
 		<tr>
 			<td align="right">
-				Username: <?=$row['user_name']?>;
+				Username: <?=$row['user_name']?>
 			</td>
 			<td colspan="3" align="center">
 							</td>
@@ -132,7 +141,7 @@
 				Expiration Date<span style="color:red">*</span>:
 			</td>
 			<td colspan="2" align="left">
-				<input type="text" id="expiration_date" name="expiration_date" value='03/19'>
+				<input type="text" id="expiration_date" name="expiration_date" value=<?php echo "'" . date('m/y', mktime(0, 0, 0, substr($row['CCexp'], 5, 2), 1, substr($row['CCexp'], 0,4))) . "'"; ?> >
 			</td>
 		</tr>
 		<tr>
@@ -140,7 +149,7 @@
 				<input type="submit" id="update_submit" name="update_submit" value="Update">
 			</td>
 			</form>
-		<form id="cancel" action="proof_purchase.php" method="post">
+		<form id="cancel" action="confirm_order.php" method="post">
 			<td align="left" colspan="2">
 				<input type="submit" id="cancel_submit" name="cancel_submit" value="Cancel">
 			</td>
