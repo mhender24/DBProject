@@ -5,7 +5,7 @@
 						FROM book
 						GROUP BY genre
 						ORDER BY count(*) DESC";
-	$month_sales_sql ="SELECT extract(month from date) as date ,round(avg(total), 2) as avg
+	$month_sales_sql ="SELECT extract(month from date) as date ,round(avg(total), 2) as avg, sum(total) as total_sales
 						FROM orders
 						WHERE extract(year from curdate()) = extract(year from date)
 						GROUP BY extract(month from date)";
@@ -57,12 +57,13 @@
 	<br/><br/>
 	<table border = "1">
 	    <tr>
-		<th colspan="2">Sales by Month</th>
+		<th colspan="3">Sales by Month</th>
 	    </tr>
 	    <tr>
 
 		<th>Month</th>
-		<th>Income</th>
+		<th>Average Order</th>
+		<th>Total Sales</th>
 	    </tr>
 			<?php
 				if($month_sales_result = mysqli_query($link, $month_sales_sql)){
@@ -96,6 +97,8 @@
 						//echo $row['date'];
 						echo "</td><td>$";
 						echo $row['avg'];
+						echo "</td><td>$";
+						echo $row['total_sales'];
 						echo "</td></tr>";
 					}
 				}
