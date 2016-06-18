@@ -16,6 +16,10 @@
 			}
 		}
 	}
+	
+	for ($j = 0; $j < count($_SESSION["quantities"]); $j++)	{
+		$_SESSION["quantities"][$j] = $_POST["quantity"][$j];
+	}
 ?>
 
 <!-- Shopping cart Screen provided by Dr Krish Narayanan via canvas -->
@@ -60,7 +64,7 @@
 				$html .= "<tr>
 							<td width='10%'><input type='button' name='remove' value='Delete Item' onClick=del('". $row['ISBN'] . "')></td>
 							<td width='60%'>" . $desc . "</td>
-							<td width='10%'><input size='2' type='number' name='quantity' min='1' value='" . $_SESSION['quantities'][$i] . "'></td>
+							<td width='10%'><input size='2' type='number' name='quantity[]' min='1' value='" . $_SESSION['quantities'][$i] . "'></td>
 							<td width='10%'>$" . $price . "</td>
 						</tr>";
 			}
