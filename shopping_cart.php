@@ -18,7 +18,9 @@
 	}
 	
 	for ($j = 0; $j < count($_SESSION["quantities"]); $j++)	{
-		$_SESSION["quantities"][$j] = $_POST["quantity"][$j];
+		if(isset($_POST["quantity"][$j]))	{
+			$_SESSION["quantities"][$j] = $_POST["quantity"][$j];
+		}
 	}
 ?>
 
@@ -58,7 +60,7 @@
 						. $row['author'] . "<br>"
 						. $row['ISBN'];
 
-				$price = $row["price"];
+				$price = ( $_SESSION['quantities'][$i] * $row["price"]);
 				$subtotal += $price;
 
 				$html .= "<tr>

@@ -71,7 +71,8 @@
 		<tr><th>Book Description</th><th>Qty</th><th>Price</th></tr>
 		<?php
 			while($cart_row = mysqli_fetch_assoc($cart_result) ){
-				echo "<tr><td>" . $cart_row['title'] . "</br><strong>BY</strong>: " . $cart_row['author'] . "</br><strong>Price:</strong> " . $cart_row['price'] . "</td><td>" . $cartlink[$cart_row['ISBN']] . "</td><td>" . $cart_row['price'] . "</td></tr>";
+				$price = ($cart_row['price'] * $cartlink[$cart_row['ISBN']]);
+				echo "<tr><td>" . $cart_row['title'] . "</br><strong>BY</strong>: " . $cart_row['author'] . "</br><strong>Price:</strong> " . $cart_row['price'] . "</td><td>" . $cartlink[$cart_row['ISBN']] . "</td><td>" . $price . "</td></tr>";
 				$subtotal += $cart_row['price'];
 
 			}
