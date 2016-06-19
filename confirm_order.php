@@ -44,8 +44,6 @@
 								VALUES('" . $randid . "', '" . $_SESSION['cart'][$i] . "', " . $_SESSION['quantities'][$i] . ");";
 				mysqli_query($link, $content_sql);
 			}
-			unset($_SESSION['cart']);
-			unset($_SESSION['quantities']);
 			header("Location: proof_purchase.php");
 		}
 	}
