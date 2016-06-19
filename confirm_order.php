@@ -16,7 +16,7 @@
 	//			 FROM book as b natural join order_contents as c
 	//			 WHERE ISBN = ";
 	$subtotal = 0.0;
-	$shipping = 2.00 * count($_SESSION['cart']);
+	$shipping = 2.00 * array_sum($_SESSION['quantities']);
 	$cart_sql = "SELECT title, price, author, ISBN
 				 FROM book
 				 WHERE ISBN = ";
@@ -105,7 +105,7 @@
 			while($cart_row = mysqli_fetch_assoc($cart_result) ){
 				$price = ($cart_row['price'] * $cartlink[$cart_row['ISBN']]);
 				echo "<tr><td>" . $cart_row['title'] . "</br><strong>BY</strong>: " . $cart_row['author'] . "</br><strong>Price:</strong> " . $cart_row['price'] . "</td><td>" . $cartlink[$cart_row['ISBN']] . "</td><td>" . $price . "</td></tr>";
-				$subtotal += $cart_row['price'];
+				$subtotal += $price;
 
 			}
 		?>
