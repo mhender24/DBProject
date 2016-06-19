@@ -32,13 +32,20 @@
 			$subtotal += $cart_row['price'];
 		}
 		$total = $subtotal + $shipping;
+		$randid = rand(1, 99999999);
 		$insert_sql = "INSERT INTO orders
-						VALUES('" .rand(1, 99999999) . "', '". $user_row['user_name'] . "', '" . date('Y-m-d') . "', " . $total .
+						VALUES('" . $randid . "', '". $user_row['user_name'] . "', '" . date('Y-m-d') . "', " . $total .
 							")";
 		if (!mysqli_query($link,$insert_sql))
 			$error = "Could not complete order.";
-		else
+		else	{
+			for ($i = 0; $i < $_SESSION["cart"]; $i++)	{
+				$content_sql = "INSERT INTO order_contents
+								VALUES('" . $randid . "', '" . $_SESSION['cart'][$i] . "', " . $_SESSION['quantities'][$i] . ");";
+				mysqli_query($link, $content_sql);
+			}
 			header("Location: proof_purchase.php");
+		}
 	}
 	
 	$cartlink = array();
