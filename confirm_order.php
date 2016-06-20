@@ -39,11 +39,11 @@
 		if (!mysqli_query($link,$insert_sql))
 			$error = "Could not complete order.";
 		else	{
-			for ($i = 0; $i < $_SESSION["cart"]; $i++)	{
-				$content_sql = "INSERT INTO order_contents
-								VALUES('" . $randid . "', '" . $_SESSION['cart'][$i] . "', " . $_SESSION['quantities'][$i] . ");";
-				mysqli_query($link, $content_sql);
-			}
+//			for ($i = 0; $i < $_SESSION["cart"]; $i++)	{
+//				$content_sql = "INSERT INTO order_contents
+//								VALUES('" . $randid . "', '" . $_SESSION['cart'][$i] . "', " . $_SESSION['quantities'][$i] . ");";
+//				mysqli_query($link, $content_sql);
+//			}
 			header("Location: proof_purchase.php");
 		}
 	}
